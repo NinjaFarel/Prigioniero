@@ -23,7 +23,7 @@ def main():
           "sarà possibile codificare nella serie di bit di parità la posizione in binario della chiave!")
 
     print("\nInserisci le coordinate in formato \"i, j\" della chiave (parte da 0, 0 in alto a sinistra): ")
-    chiave = chiedi_coordinate()
+    chiave = chiedi_coordinate(dimensione)
 
     parita = calcola_parita(scacchiera)
     pos_chiave = coord_to_pos(chiave[0], chiave[1], dimensione_reale)
@@ -68,7 +68,18 @@ def chiedi_dimensione() -> tuple[int, int]:
 
 
 def riempi_manualmente(dimensione: int, dimensione_reale: int) -> list[list[int]]:
-    raise NotImplemented  # Un giorno, forse...
+    print("\nInserisci le coordinate in formato \"i, j\" di tutte le monete testa, "
+          "separandole con un \"a capo\" (puoi annullare una selezione ripetendola):")
+    scelta = ""
+    scacchiera = [[0 for _ in range(dimensione_reale)] for _ in range(dimensione_reale)]
+
+    while scelta.lower() != "q":
+        coordinate = chiedi_coordinate(dimensione)
+        scacchiera[coordinate[0]][coordinate[1]] = 1 - scacchiera[coordinate[0]][coordinate[1]]
+
+        scelta = input("Premi Q per uscire, lascia vuoto per continuare a girare monete: ")
+
+    return scacchiera
 
 
 def riempi_casualmente(dimensione: int, dimensione_reale: int) -> list[list[int]]:
@@ -131,13 +142,16 @@ def pos_to_coord(pos: int, dim: int) -> tuple[int, int]:
     return pos - dim * int(pos / dim), int(pos / dim)
 
 
-def chiedi_coordinate() -> tuple[int, ...]:
+def chiedi_coordinate(dimensione: int) -> tuple[int, ...]:
     while True:
         coordinate = input()
         try:
             parti = coordinate.split(",")
             if len(parti) != 2:
                 raise ValueError
+            for coordinata in parti:
+                if coordinata > str(dimensione - 1):
+                    raise ValueError
             return tuple(map(int, map(str.strip, parti)))
         except ValueError:
             print("Coordinate non corrette! Riprova.")
