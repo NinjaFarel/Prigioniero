@@ -36,12 +36,12 @@ def main():
         pos_moneta = parita ^ pos_chiave
         moneta = pos_to_coord(pos_moneta, dimensione_reale)
         print("\nPer calcolare la moneta da cambiare, basta uno XOR tra la parità e la chiave, "
-              f"che nel nostro caso fa {bin(pos_moneta)}")
+              f"che nel nostro caso fa: {bin(pos_moneta)}")
         scacchiera[moneta[0]][moneta[1]] += 4
 
     scacchiera[chiave[0]][chiave[1]] += 2
     print("\nLa nostra scacchiera finale sarà quindi (C è la chiave, X la moneta da cambiare, "
-          "in maiuscolo se precedentemente 1, viceversa minuscolo): ")
+          "in maiuscolo se precedentemente 1, viceversa minuscolo):")
     mostra_scacchiera(dimensione, scacchiera)
 
     scelta = input("\n\nPremi Q per uscire, lascia vuoto per riprovare: ")
